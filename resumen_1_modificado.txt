@@ -1,0 +1,8 @@
+===== RESUMEN INSCRIPCION =====
+ID: 1
+Estudiante: Victor Marambio
+
+Cursos inscritos:
+- Desarrollo Cloud Native | $150000.0
+
+TOTAL A PAGAR: $150000.0
