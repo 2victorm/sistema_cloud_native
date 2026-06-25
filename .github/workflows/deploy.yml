@@ -1,4 +1,4 @@
-name: Deploy Semana 5
+name: Deploy Semana 6
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: 1victorm/semana5:latest
+          tags: 1victorm/sistema_cloud_native:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -36,19 +36,19 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
           AWS_REGION: us-east-1
-          AWS_BUCKET_NAME: bucketinscripciones
+          AWS_BUCKET_NAME: bucketinscipciones
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_SESSION_TOKEN,AWS_REGION,AWS_BUCKET_NAME
           script: |
-            docker pull 1victorm/semana5:latest
-            docker rm -f semana5 || true
-            docker run -d --name semana5 -p 8080:8080 \
+            docker pull 1victorm/sistema_cloud_native:latest
+            docker rm -f sistema_cloud_native || true
+            docker run -d --name sistema_cloud_native -p 8080:8080 \
               -e AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
               -e AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
               -e AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
               -e AWS_REGION="$AWS_REGION" \
               -e AWS_BUCKET_NAME="$AWS_BUCKET_NAME" \
-              1victorm/semana5:latest
+              1victorm/sistema_cloud_native:latest
