@@ -2,6 +2,7 @@ package com.duoc.sistemainscripcion.guias.service;
 
 import com.duoc.sistemainscripcion.guias.model.GuiaDespacho;
 import com.duoc.sistemainscripcion.guias.repository.GuiaRepositorio;
+import com.duoc.sistemainscripcion.rabbitmq.GuiaProductor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,15 @@ public class GuiaServicio {
     @Autowired
     private GuiaRepositorio guiaRepositorio;
 
+    @Autowired
+    private GuiaProductor guiaProductor;
+
     public GuiaDespacho crear(GuiaDespacho guia) {
         guia.setFecha(LocalDate.now());
         guia.setEstado("PENDIENTE");
-        return guiaRepositorio.save(guia);
+        GuiaDespacho guardada = guiaRepositorio.save(guia);
+        guiaProductor.publicarGuia(guardada);
+        return guardada;
     }
 
     public GuiaDespacho obtener(Long id) {

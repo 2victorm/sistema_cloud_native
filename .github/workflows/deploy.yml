@@ -36,7 +36,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
           AWS_REGION: us-east-1
-          AWS_BUCKET_NAME: bucketinscipciones
+          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user

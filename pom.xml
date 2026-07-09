@@ -17,7 +17,7 @@
     <artifactId>sistemainscripcion</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>sistemainscripcion</name>
-    <description>Sistema de inscripción Spring Boot - Semana 4</description>
+    <description>Sistema de Gestión de Pedidos y Guías de Despacho - Semana 8</description>
 
     <properties>
         <java.version>21</java.version>
@@ -53,12 +53,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
@@ -89,6 +83,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+                <!-- RabbitMQ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <!-- Oracle -->
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc11</artifactId>
+            <version>23.4.0.24.05</version>
         </dependency>
 
     </dependencies>
