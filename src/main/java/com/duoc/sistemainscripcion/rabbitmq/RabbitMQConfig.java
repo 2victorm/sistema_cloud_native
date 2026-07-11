@@ -39,7 +39,7 @@ public class RabbitMQConfig {
     public Binding dlxBinding() {
         return BindingBuilder.bind(colaErrores())
                 .to(dlxExchange())
-                .with(COLA_ERRORES);
+                .with(COLA_GUIAS);
     }
 
     // Configuración para que mensajes fallidos vayan al DLX
