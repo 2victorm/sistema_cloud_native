@@ -2,10 +2,11 @@ package com.duoc.sistemainscripcion.guias.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "guias_despacho")
-public class GuiaDespacho {
+public class GuiaDespacho implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
