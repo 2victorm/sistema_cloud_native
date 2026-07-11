@@ -23,6 +23,7 @@ services:
       - .env
     environment:
       RABBITMQ_HOST: rabbitmq
+      SPRING_AMQP_DESERIALIZATION_TRUST_ALL: "true"
     depends_on:
       - rabbitmq
     networks:
