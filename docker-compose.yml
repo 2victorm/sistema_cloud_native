@@ -15,7 +15,7 @@ services:
       - app-network
 
   app:
-    build: .
+    image: 1victorm/sistema_cloud_native:latest
     container_name: sistema-guias
     ports:
       - "8080:8080"
