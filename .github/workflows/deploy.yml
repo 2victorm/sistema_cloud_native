@@ -1,4 +1,4 @@
-name: Deploy Semana 6
+name: Deploy Semana 8
 
 on:
   push:
@@ -43,12 +43,16 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_SESSION_TOKEN,AWS_REGION,AWS_BUCKET_NAME
           script: |
+            cd /home/ec2-user/sistema_cloud_native
+            git pull origin main
+            cat > .env << EOF
+            AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+            AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+            AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN
+            AWS_REGION=$AWS_REGION
+            AWS_BUCKET_NAME=$AWS_BUCKET_NAME
+            RABBITMQ_HOST=rabbitmq
+            EOF
+            docker-compose down || true
             docker pull 1victorm/sistema_cloud_native:latest
-            docker rm -f sistema_cloud_native || true
-            docker run -d --name sistema_cloud_native -p 8080:8080 \
-              -e AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
-              -e AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
-              -e AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
-              -e AWS_REGION="$AWS_REGION" \
-              -e AWS_BUCKET_NAME="$AWS_BUCKET_NAME" \
-              1victorm/sistema_cloud_native:latest
+            docker-compose up -d
