@@ -16,6 +16,10 @@ public class GuiaConsumidor {
     @RabbitListener(queues = RabbitMQConfig.COLA_GUIAS)
     public void recibirGuia(GuiaDespacho guia) {
         try {
+            if ("ERROR".equals(guia.getNumeroGuia())) {
+                throw new RuntimeException("Error simulado para prueba de cola-errores");
+            }
+
             GuiaDespachoMensaje mensaje = new GuiaDespachoMensaje();
             mensaje.setNumeroGuia(guia.getNumeroGuia());
             mensaje.setTransportista(guia.getTransportista());
@@ -29,7 +33,7 @@ public class GuiaConsumidor {
             System.out.println("Guía guardada en Oracle desde cola: " + guia.getNumeroGuia());
         } catch (Exception e) {
             System.err.println("Error al procesar mensaje de la cola: " + e.getMessage());
-            throw e; // Lanza el error para que RabbitMQ lo envíe al DLX
+            throw e;
         }
     }
 }

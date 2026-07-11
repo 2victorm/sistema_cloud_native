@@ -16,7 +16,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()))
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/h2-console/**").permitAll()
                 // Solo rol DESCARGA puede descargar
                 .requestMatchers("/guias/*/descargar").hasAuthority("ROLE_DESCARGA")
                 // Rol ADMIN puede usar el resto
