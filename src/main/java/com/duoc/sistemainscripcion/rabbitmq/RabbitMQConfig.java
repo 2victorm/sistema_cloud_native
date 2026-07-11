@@ -1,6 +1,8 @@
 package com.duoc.sistemainscripcion.rabbitmq;
 
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,5 +39,15 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(colaErrores())
                 .to(dlxExchange())
                 .with(COLA_ERRORES);
+    }
+
+    // Configuración para que mensajes fallidos vayan al DLX
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
+            ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setDefaultRequeueRejected(false);
+        return factory;
     }
 }
