@@ -2,316 +2,156 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Plataforma de Cursos en Línea</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/msal.js/2.38.2/msal-browser.min.js"></script>
+  <title>Plataforma de Cursos</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; background: #f0f2f5; color: #333; }
-    header { background: #0078d4; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
-    header h1 { font-size: 20px; }
-    .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
-    .btn-primary { background: #0078d4; color: white; }
-    .btn-secondary { background: white; color: #0078d4; border: 1px solid #0078d4; }
-    .btn-danger { background: #d13438; color: white; }
-    .btn-success { background: #107c10; color: white; }
-    .container { max-width: 900px; margin: 32px auto; padding: 0 16px; }
-    .card { background: white; border-radius: 8px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .login-box { text-align: center; padding: 48px; }
-    .login-box h2 { margin-bottom: 12px; color: #0078d4; }
-    .login-box p { margin-bottom: 24px; color: #666; }
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #555; }
-    .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th { background: #f5f5f5; padding: 10px 12px; text-align: left; border-bottom: 2px solid #ddd; }
-    td { padding: 10px 12px; border-bottom: 1px solid #eee; }
-    tr:hover td { background: #fafafa; }
-    .badge { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
-    .badge-pendiente { background: #fff4ce; color: #835c00; }
-    .badge-activo { background: #dff6dd; color: #107c10; }
-    .badge-completado { background: #e0f0ff; color: #0078d4; }
-    .user-info { font-size: 13px; display: flex; align-items: center; gap: 12px; }
-    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-    .section-header h2 { font-size: 18px; }
-    .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
-    .alert-success { background: #dff6dd; color: #107c10; }
-    .alert-error { background: #fde7e9; color: #d13438; }
-    .hidden { display: none; }
-    .role-tag { background: #e0f0ff; color: #0078d4; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
-    .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-    .tab { padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; border: 1px solid #ddd; background: white; }
-    .tab.active { background: #0078d4; color: white; border-color: #0078d4; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-    .mensajes-list { display: flex; flex-direction: column; gap: 10px; }
-    .mensaje-item { background: #f9f9f9; border-left: 4px solid #0078d4; padding: 12px 16px; border-radius: 0 6px 6px 0; font-size: 13px; }
-    .mensaje-item strong { display: block; margin-bottom: 4px; }
-    .loading { text-align: center; color: #888; padding: 24px; }
+    *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#f0f2f5}header{background:#0078d4;color:white;padding:16px 32px;display:flex;justify-content:space-between;align-items:center}.btn{padding:8px 16px;border:none;border-radius:6px;cursor:pointer;font-size:14px}.btn-primary{background:#0078d4;color:white}.btn-secondary{background:white;color:#0078d4;border:1px solid #0078d4}.btn-success{background:#107c10;color:white}.container{max-width:900px;margin:32px auto;padding:0 16px}.card{background:white;border-radius:8px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.08)}.login-box{text-align:center;padding:48px}.hidden{display:none}.tabs{display:flex;gap:8px;margin-bottom:20px}.tab{padding:8px 20px;border-radius:6px;cursor:pointer;font-size:14px;border:1px solid #ddd;background:white}.tab.active{background:#0078d4;color:white}.tab-content{display:none}.tab-content.active{display:block}table{width:100%;border-collapse:collapse;font-size:14px}th{background:#f5f5f5;padding:10px 12px;text-align:left;border-bottom:2px solid #ddd}td{padding:10px 12px;border-bottom:1px solid #eee}.form-group{margin-bottom:16px}.form-group label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}.form-group input{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.alert{padding:12px 16px;border-radius:6px;margin-bottom:16px}.alert-success{background:#dff6dd;color:#107c10}.alert-error{background:#fde7e9;color:#d13438}.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.loading{text-align:center;color:#888;padding:24px}.role-tag{background:#e0f0ff;color:#0078d4;padding:2px 8px;border-radius:4px;font-size:12px}.user-info{font-size:13px;display:flex;align-items:center;gap:12px}.mensaje-item{background:#f9f9f9;border-left:4px solid #0078d4;padding:12px;margin-bottom:8px;border-radius:0 6px 6px 0}
   </style>
 </head>
 <body>
-
 <header>
   <h1>🎓 Plataforma de Cursos en Línea</h1>
   <div id="user-info" class="user-info hidden">
     <span id="user-name"></span>
     <span id="user-role" class="role-tag"></span>
-    <button class="btn btn-secondary" onclick="logout()">Cerrar sesión</button>
+    <button class="btn btn-secondary" onclick="doLogout()">Cerrar sesión</button>
   </div>
 </header>
-
 <div class="container">
-
-  <!-- LOGIN -->
   <div id="login-section" class="card login-box">
-    <h2>Bienvenido</h2>
-    <p>Inicia sesión con tu cuenta institucional para acceder a la plataforma.</p>
-    <button class="btn btn-primary" style="font-size:16px; padding:12px 32px;" onclick="login()">
-      Iniciar sesión con Azure AD B2C
-    </button>
+    <h2 style="color:#0078d4;margin-bottom:12px">Bienvenido</h2>
+    <p style="color:#666;margin-bottom:24px">Inicia sesión con tu cuenta institucional.</p>
+    <button class="btn btn-primary" style="font-size:16px;padding:12px 32px" onclick="doLogin()">Iniciar sesión con Azure AD B2C</button>
   </div>
-
-  <!-- APP -->
   <div id="app-section" class="hidden">
-
     <div id="alert-box" class="hidden"></div>
-
     <div class="tabs">
       <div class="tab active" onclick="showTab('inscripciones')">Inscripciones</div>
       <div class="tab" onclick="showTab('nueva')">Nueva inscripción</div>
       <div class="tab" onclick="showTab('mensajes')">Cola de mensajes</div>
     </div>
-
-    <!-- TAB: INSCRIPCIONES -->
     <div id="tab-inscripciones" class="tab-content active card">
-      <div class="section-header">
-        <h2>Inscripciones</h2>
-        <button class="btn btn-primary" onclick="cargarInscripciones()">↻ Actualizar</button>
-      </div>
+      <div class="section-header"><h2>Inscripciones</h2><button class="btn btn-primary" onclick="cargarInscripciones()">↻ Actualizar</button></div>
       <div id="tabla-inscripciones"><div class="loading">Cargando...</div></div>
     </div>
-
-    <!-- TAB: NUEVA INSCRIPCIÓN -->
     <div id="tab-nueva" class="tab-content card">
       <h2 style="margin-bottom:20px">Nueva inscripción</h2>
       <div class="form-row">
-        <div class="form-group">
-          <label>Código de inscripción</label>
-          <input id="f-codigo" type="text" placeholder="INS-2024-010"/>
-        </div>
-        <div class="form-group">
-          <label>Nombre del estudiante</label>
-          <input id="f-estudiante" type="text" placeholder="Juan Pérez"/>
-        </div>
+        <div class="form-group"><label>Código</label><input id="f-codigo" placeholder="INS-2024-010"/></div>
+        <div class="form-group"><label>Estudiante</label><input id="f-estudiante" placeholder="Juan Pérez"/></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Email del estudiante</label>
-          <input id="f-email" type="email" placeholder="juan@duoc.cl"/>
-        </div>
-        <div class="form-group">
-          <label>Nombre del curso</label>
-          <input id="f-curso" type="text" placeholder="Desarrollo Cloud Native"/>
-        </div>
+        <div class="form-group"><label>Email</label><input id="f-email" type="email" placeholder="juan@duoc.cl"/></div>
+        <div class="form-group"><label>Curso</label><input id="f-curso" placeholder="Desarrollo Cloud Native"/></div>
       </div>
-      <div class="form-group">
-        <label>Instructor</label>
-        <input id="f-instructor" type="text" placeholder="Ignacio Pastenet"/>
-      </div>
+      <div class="form-group"><label>Instructor</label><input id="f-instructor" placeholder="Ignacio Pastenet"/></div>
       <button class="btn btn-success" style="margin-top:8px" onclick="crearInscripcion()">Crear inscripción</button>
     </div>
-
-    <!-- TAB: MENSAJES DE COLA -->
     <div id="tab-mensajes" class="tab-content card">
-      <div class="section-header">
-        <h2>Mensajes procesados por la cola</h2>
-        <button class="btn btn-primary" onclick="cargarMensajes()">↻ Actualizar</button>
-      </div>
+      <div class="section-header"><h2>Mensajes de la cola</h2><button class="btn btn-primary" onclick="cargarMensajes()">↻ Actualizar</button></div>
       <div id="lista-mensajes"><div class="loading">Cargando...</div></div>
     </div>
-
   </div>
 </div>
-
+<script src="/msal.js"></script>
 <script>
-const API = "https://gx40xrdtdf.execute-api.us-east-1.amazonaws.com/prod";
-const TENANT = "duocazure6.b2clogin.com";
-const TENANT_ID = "f46d4161-d548-45fa-b47b-4644faa51b29";
-const CLIENT_ID = "5eb7f163-c2ed-4eeb-ba31-b1bfd0c13325";
-const POLICY = "b2c_1_signupsignin";
-const AUTHORITY = `https://${TENANT}/tfp/${TENANT_ID}/${POLICY}`;
+var API="https://gx40xrdtdf.execute-api.us-east-1.amazonaws.com/prod";
+var token=null;
+var msal_app=null;
+var AUTHORITY="https://duocazure6.b2clogin.com/tfp/f46d4161-d548-45fa-b47b-4644faa51b29/b2c_1_signupsignin";
 
-const msalConfig = {
-  auth: {
-    clientId: CLIENT_ID,
-    authority: AUTHORITY,
-    knownAuthorities: [TENANT],
-    redirectUri: window.location.href.split('?')[0]
-  }
-};
-
-const msalInstance = new msal.PublicClientApplication(msalConfig);
-let tokenActual = null;
-let rolActual = null;
-
-async function init() {
-  try {
-    const response = await msalInstance.handleRedirectPromise();
-    if (response) {
-      tokenActual = response.idToken;
-      mostrarApp(response);
+window.onload=function(){
+  msal_app=new msal.PublicClientApplication({
+    auth:{
+      clientId:"5eb7f163-c2ed-4eeb-ba31-b1bfd0c13325",
+      authority:AUTHORITY,
+      knownAuthorities:["duocazure6.b2clogin.com"],
+      redirectUri:"http://localhost:8000"
+    }
+  });
+  msal_app.handleRedirectPromise().then(function(r){
+    if(r&&r.idToken){
+      token=r.idToken;
+      mostrarApp(r);
     } else {
-      const accounts = msalInstance.getAllAccounts();
-      if (accounts.length > 0) {
-        const silentResult = await msalInstance.acquireTokenSilent({
-          account: accounts[0],
-          scopes: ["openid", "profile"],
-          authority: AUTHORITY
-        });
-        tokenActual = silentResult.idToken;
-        mostrarApp(silentResult);
+      var accounts=msal_app.getAllAccounts();
+      if(accounts.length>0){
+        msal_app.acquireTokenSilent({account:accounts[0],scopes:["openid","profile"],authority:AUTHORITY}).then(function(s){
+          token=s.idToken;
+          mostrarApp(s);
+        }).catch(function(e){console.log("silent fail",e);});
       }
     }
-  } catch (e) {
-    console.error("Error init:", e);
-  }
+  }).catch(function(e){console.error("redirect error",e);});
+};
+
+function doLogin(){
+  msal_app.loginRedirect({scopes:["openid","profile"],authority:AUTHORITY});
 }
 
-function login() {
-  msalInstance.loginRedirect({
-    scopes: ["openid", "profile"],
-    authority: AUTHORITY
-  });
+function doLogout(){
+  msal_app.logoutRedirect();
 }
 
-function logout() {
-  msalInstance.logoutRedirect();
+function showTab(name){
+  document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active");});
+  document.querySelectorAll(".tab-content").forEach(function(c){c.classList.remove("active");});
+  event.target.classList.add("active");
+  document.getElementById("tab-"+name).classList.add("active");
+  if(name==="mensajes") cargarMensajes();
 }
 
-function mostrarApp(result) {
-  const claims = result.idTokenClaims || {};
-  const nombre = claims.name || claims.given_name || claims.emails?.[0] || "Usuario";
-  rolActual = claims.extension_rol || "ADMIN";
-
+function mostrarApp(r){
+  var c=r.idTokenClaims||{};
   document.getElementById("login-section").classList.add("hidden");
   document.getElementById("app-section").classList.remove("hidden");
   document.getElementById("user-info").classList.remove("hidden");
-  document.getElementById("user-name").textContent = nombre;
-  document.getElementById("user-role").textContent = rolActual;
-
+  document.getElementById("user-name").textContent=c.name||c.given_name||"Usuario";
+  document.getElementById("user-role").textContent=c.extension_rol||"ADMIN";
   cargarInscripciones();
 }
 
-function showTab(tab) {
-  document.querySelectorAll(".tab").forEach((t, i) => {
-    const names = ["inscripciones", "nueva", "mensajes"];
-    t.classList.toggle("active", names[i] === tab);
-  });
-  document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
-  document.getElementById("tab-" + tab).classList.add("active");
-
-  if (tab === "mensajes") cargarMensajes();
+function showAlert(m,t){
+  var b=document.getElementById("alert-box");
+  b.className="alert alert-"+t;
+  b.textContent=m;
+  b.classList.remove("hidden");
+  setTimeout(function(){b.classList.add("hidden");},4000);
 }
 
-function showAlert(msg, type) {
-  const box = document.getElementById("alert-box");
-  box.className = "alert alert-" + type;
-  box.textContent = msg;
-  box.classList.remove("hidden");
-  setTimeout(() => box.classList.add("hidden"), 4000);
+function cargarInscripciones(){
+  document.getElementById("tabla-inscripciones").innerHTML='<div class="loading">Cargando...</div>';
+  fetch(API+"/inscripciones/listar",{headers:{"Authorization":"Bearer "+token}})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(!d.length){document.getElementById("tabla-inscripciones").innerHTML="<p>No hay inscripciones.</p>";return;}
+    var h="<table><thead><tr><th>Código</th><th>Estudiante</th><th>Curso</th><th>Instructor</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>";
+    d.forEach(function(i){h+="<tr><td>"+i.codigoInscripcion+"</td><td>"+i.nombreEstudiante+"</td><td>"+i.nombreCurso+"</td><td>"+i.instructor+"</td><td>"+i.estado+"</td><td>"+i.fechaInscripcion+"</td></tr>";});
+    h+="</tbody></table>";
+    document.getElementById("tabla-inscripciones").innerHTML=h;
+  }).catch(function(){document.getElementById("tabla-inscripciones").innerHTML="<p style='color:red'>Error.</p>";});
 }
 
-async function cargarInscripciones() {
-  document.getElementById("tabla-inscripciones").innerHTML = '<div class="loading">Cargando...</div>';
-  try {
-    const res = await fetch(`${API}/inscripciones/listar`, {
-      headers: { Authorization: "Bearer " + tokenActual }
-    });
-    const data = await res.json();
-    if (!data.length) {
-      document.getElementById("tabla-inscripciones").innerHTML = "<p style='color:#888'>No hay inscripciones registradas.</p>";
-      return;
-    }
-    let html = `<table><thead><tr>
-      <th>Código</th><th>Estudiante</th><th>Curso</th><th>Instructor</th><th>Estado</th><th>Fecha</th>
-    </tr></thead><tbody>`;
-    data.forEach(i => {
-      const badge = i.estado === "ACTIVO" ? "activo" : i.estado === "COMPLETADO" ? "completado" : "pendiente";
-      html += `<tr>
-        <td>${i.codigoInscripcion}</td>
-        <td>${i.nombreEstudiante}<br><small style="color:#888">${i.emailEstudiante}</small></td>
-        <td>${i.nombreCurso}</td>
-        <td>${i.instructor}</td>
-        <td><span class="badge badge-${badge}">${i.estado}</span></td>
-        <td>${i.fechaInscripcion}</td>
-      </tr>`;
-    });
-    html += "</tbody></table>";
-    document.getElementById("tabla-inscripciones").innerHTML = html;
-  } catch (e) {
-    document.getElementById("tabla-inscripciones").innerHTML = '<p style="color:red">Error al cargar inscripciones.</p>';
-  }
+function crearInscripcion(){
+  var b={codigoInscripcion:document.getElementById("f-codigo").value,nombreEstudiante:document.getElementById("f-estudiante").value,emailEstudiante:document.getElementById("f-email").value,nombreCurso:document.getElementById("f-curso").value,instructor:document.getElementById("f-instructor").value};
+  if(!b.codigoInscripcion||!b.nombreEstudiante||!b.nombreCurso){showAlert("Completa todos los campos.","error");return;}
+  fetch(API+"/bff/publicar",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify(b)})
+  .then(function(r){
+    if(r.ok){showAlert("Inscripción creada.","success");document.querySelectorAll("#tab-nueva input").forEach(function(i){i.value="";});}
+    else{showAlert("Error al crear.","error");}
+  }).catch(function(){showAlert("Error de conexión.","error");});
 }
 
-async function crearInscripcion() {
-  const body = {
-    codigoInscripcion: document.getElementById("f-codigo").value,
-    nombreEstudiante: document.getElementById("f-estudiante").value,
-    emailEstudiante: document.getElementById("f-email").value,
-    nombreCurso: document.getElementById("f-curso").value,
-    instructor: document.getElementById("f-instructor").value
-  };
-  if (!body.codigoInscripcion || !body.nombreEstudiante || !body.nombreCurso) {
-    showAlert("Completa todos los campos obligatorios.", "error");
-    return;
-  }
-  try {
-    const res = await fetch(`${API}/bff/publicar`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Bearer " + tokenActual },
-      body: JSON.stringify(body)
-    });
-    if (res.ok) {
-      showAlert("Inscripción creada y publicada en la cola correctamente.", "success");
-      document.querySelectorAll("#tab-nueva input").forEach(i => i.value = "");
-      showTab("inscripciones");
-      cargarInscripciones();
-    } else {
-      showAlert("Error al crear la inscripción.", "error");
-    }
-  } catch (e) {
-    showAlert("Error de conexión.", "error");
-  }
+function cargarMensajes(){
+  document.getElementById("lista-mensajes").innerHTML='<div class="loading">Cargando...</div>';
+  fetch(API+"/bff/mensajes",{headers:{"Authorization":"Bearer "+token}})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(!d.length){document.getElementById("lista-mensajes").innerHTML="<p>No hay mensajes.</p>";return;}
+    var h="";
+    d.forEach(function(m){h+='<div class="mensaje-item"><strong>'+m.codigoInscripcion+' — '+m.nombreEstudiante+'</strong><br>Curso: '+m.nombreCurso+'</div>';});
+    document.getElementById("lista-mensajes").innerHTML=h;
+  }).catch(function(){document.getElementById("lista-mensajes").innerHTML="<p style='color:red'>Error.</p>";});
 }
-
-async function cargarMensajes() {
-  document.getElementById("lista-mensajes").innerHTML = '<div class="loading">Cargando...</div>';
-  try {
-    const res = await fetch(`${API}/bff/mensajes`, {
-      headers: { Authorization: "Bearer " + tokenActual }
-    });
-    const data = await res.json();
-    if (!data.length) {
-      document.getElementById("lista-mensajes").innerHTML = "<p style='color:#888'>No hay mensajes procesados.</p>";
-      return;
-    }
-    let html = '<div class="mensajes-list">';
-    data.forEach(m => {
-      html += `<div class="mensaje-item">
-        <strong>${m.codigoInscripcion} — ${m.nombreEstudiante}</strong>
-        Curso: ${m.nombreCurso} | Instructor: ${m.instructor} | Estado: ${m.estado} | Fecha: ${m.fechaInscripcion}
-      </div>`;
-    });
-    html += "</div>";
-    document.getElementById("lista-mensajes").innerHTML = html;
-  } catch (e) {
-    document.getElementById("lista-mensajes").innerHTML = '<p style="color:red">Error al cargar mensajes.</p>';
-  }
-}
-
-init();
 </script>
 </body>
 </html>
