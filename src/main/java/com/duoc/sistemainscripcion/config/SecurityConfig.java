@@ -19,16 +19,19 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/h2-console/**").permitAll()
-                // Solo rol DESCARGA puede descargar
-                .requestMatchers("/guias/*/descargar").hasAuthority("ROLE_DESCARGA")
-                // Rol ADMIN puede usar el resto
-                .requestMatchers("/guias/crear").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/guias/*/subir").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/guias/*/modificar").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/guias/*/eliminar").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/guias/*/eliminar-archivo").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/guias/consultar").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/guias/listar").hasAuthority("ROLE_ADMIN")
+                // Solo rol DESCARGA puede descargar comprobantes
+                .requestMatchers("/inscripciones/*/descargar").hasAuthority("ROLE_DESCARGA")
+                // Rol ADMIN gestiona inscripciones
+                .requestMatchers("/inscripciones/crear").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/inscripciones/*/subir").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/inscripciones/*/modificar").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/inscripciones/*/eliminar").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/inscripciones/*/eliminar-archivo").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/inscripciones/consultar").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/inscripciones/listar").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/inscripciones/listar-archivos").hasAuthority("ROLE_ADMIN")
+                // BFF accesible por ambos roles
+                .requestMatchers("/bff/**").authenticated()
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2

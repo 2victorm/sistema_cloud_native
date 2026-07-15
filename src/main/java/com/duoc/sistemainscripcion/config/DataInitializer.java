@@ -1,7 +1,7 @@
 package com.duoc.sistemainscripcion.config;
 
-import com.duoc.sistemainscripcion.guias.model.GuiaDespacho;
-import com.duoc.sistemainscripcion.guias.repository.GuiaRepositorio;
+import com.duoc.sistemainscripcion.cursos.model.Inscripcion;
+import com.duoc.sistemainscripcion.cursos.repository.InscripcionRepositorio;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,39 +12,39 @@ import java.time.LocalDate;
 public class DataInitializer {
 
     @Bean
-    public CommandLineRunner cargarDatos(GuiaRepositorio guiaRepositorio) {
+    public CommandLineRunner cargarDatos(InscripcionRepositorio inscripcionRepositorio) {
         return args -> {
-            GuiaDespacho g1 = new GuiaDespacho();
-            g1.setNumeroGuia("GD-2024-001");
-            g1.setTransportista("Juan Pérez");
-            g1.setOrigen("Santiago");
-            g1.setDestino("Valparaíso");
-            g1.setDestinatario("Carlos López");
-            g1.setEstado("PENDIENTE");
-            g1.setFecha(LocalDate.now());
-            guiaRepositorio.save(g1);
+            Inscripcion i1 = new Inscripcion();
+            i1.setCodigoInscripcion("INS-2024-001");
+            i1.setNombreEstudiante("Ana Torres");
+            i1.setEmailEstudiante("ana.torres@duoc.cl");
+            i1.setNombreCurso("Desarrollo Cloud Native");
+            i1.setInstructor("Ignacio Pastenet");
+            i1.setEstado("ACTIVO");
+            i1.setFechaInscripcion(LocalDate.now());
+            inscripcionRepositorio.save(i1);
 
-            GuiaDespacho g2 = new GuiaDespacho();
-            g2.setNumeroGuia("GD-2024-002");
-            g2.setTransportista("María González");
-            g2.setOrigen("Concepción");
-            g2.setDestino("Temuco");
-            g2.setDestinatario("Ana Torres");
-            g2.setEstado("EN_TRANSITO");
-            g2.setFecha(LocalDate.now());
-            guiaRepositorio.save(g2);
+            Inscripcion i2 = new Inscripcion();
+            i2.setCodigoInscripcion("INS-2024-002");
+            i2.setNombreEstudiante("Carlos López");
+            i2.setEmailEstudiante("carlos.lopez@duoc.cl");
+            i2.setNombreCurso("Ingeniería de Software");
+            i2.setInstructor("María González");
+            i2.setEstado("PENDIENTE");
+            i2.setFechaInscripcion(LocalDate.now());
+            inscripcionRepositorio.save(i2);
 
-            GuiaDespacho g3 = new GuiaDespacho();
-            g3.setNumeroGuia("GD-2024-003");
-            g3.setTransportista("Juan Pérez");
-            g3.setOrigen("Santiago");
-            g3.setDestino("Antofagasta");
-            g3.setDestinatario("Pedro Soto");
-            g3.setEstado("ENTREGADO");
-            g3.setFecha(LocalDate.now());
-            guiaRepositorio.save(g3);
+            Inscripcion i3 = new Inscripcion();
+            i3.setCodigoInscripcion("INS-2024-003");
+            i3.setNombreEstudiante("Pedro Soto");
+            i3.setEmailEstudiante("pedro.soto@duoc.cl");
+            i3.setNombreCurso("Desarrollo Cloud Native");
+            i3.setInstructor("Ignacio Pastenet");
+            i3.setEstado("COMPLETADO");
+            i3.setFechaInscripcion(LocalDate.now());
+            inscripcionRepositorio.save(i3);
 
-            System.out.println(">>> Guías de despacho cargadas en H2");
+            System.out.println(">>> Inscripciones de prueba cargadas en H2");
         };
     }
 }

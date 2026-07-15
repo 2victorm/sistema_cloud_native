@@ -8,7 +8,6 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 @Service
@@ -17,8 +16,8 @@ public class S3Servicio {
     @Autowired
     private S3Client s3Client;
 
-    public String subirArchivo(String bucket, File archivo, Long guiaId) {
-        String key = "guias/" + guiaId + "/" + archivo.getName();
+    public String subirArchivo(String bucket, File archivo, Long inscripcionId) {
+        String key = "inscripciones/" + inscripcionId + "/" + archivo.getName();
 
         PutObjectRequest request = PutObjectRequest.builder()
                 .bucket(bucket)
